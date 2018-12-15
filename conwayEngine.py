@@ -69,11 +69,11 @@ class ConwayEngine():
         dr = np.roll(r, -1, axis=1)
         NB = np.zeros(A.shape) + l + r + u + d + ul + dl + ur + dr
         #cells still alive after rule 1
-        rule1 = np.bitwise_and(A, NB > self.rules[rule][0][0])
+        rule1 = np.bitwise_and(A, NB > self.rules[rule])
         #alive cells that will live
-        rule2 = np.bitwise_and(rule1, NB < self.rules[rule][1][0])
+        rule2 = np.bitwise_and(rule1, NB < self.rules[rule])
         #dead cells that rebirth
-        rule4 = np.bitwise_and(~A, NB == self.rules[rule][2][0])
+        rule4 = np.bitwise_and(~A, NB == self.rules[rule])
         #should just be the live cells
         C = rule2 + rule4
         #np.argwhere should be a list of all the cells that have chang
@@ -85,7 +85,7 @@ class ConwayEngine():
     # self.rules should be an array of all the values for the rules.
     def processRules(self, rulesMatch):
         rul = [i.group(1, 2, 3) for i in rulesMatch]
-        self.rules = [[list(map(int, j.split(','))) for j in i] for i in rul]
+        self.rules = [int(n) for n in rul[0]]
 
     def addColorRow(self, L):
         A = self.canvas.Array
